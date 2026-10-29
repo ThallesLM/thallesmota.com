@@ -5,8 +5,8 @@
 // antes disso, nenhuma chamada ao Google sai do navegador.
 (function () {
   // Preencher com os dados da conta do Google Ads. Enquanto vazios, a etiqueta não existe.
-  var ID_GOOGLE_ADS = '';      // ex.: 'AW-123456789'
-  var ROTULO_WHATSAPP = '';    // rótulo da conversão "clique no WhatsApp"
+  var ID_GOOGLE_ADS = 'AW-18544938298';
+  var ROTULO_WHATSAPP = 'uiA-CM6pvq4dELqa9YpF';  // conversão "Contato" (clique no WhatsApp)
 
   var CHAVE = 'consentimento-cookies';
   var VALIDADE_DIAS = 180;     // a escolha é perguntada de novo depois de 6 meses
@@ -89,7 +89,7 @@
   document.addEventListener('click', function (ev) {
     var a = ev.target.closest && ev.target.closest('a[href^="https://wa.me/"]');
     if (!a || !etiquetaCarregada || !ROTULO_WHATSAPP) return;
-    window.gtag('event', 'conversion', { send_to: ID_GOOGLE_ADS + '/' + ROTULO_WHATSAPP, transport_type: 'beacon' });
+    window.gtag('event', 'conversion', { send_to: ID_GOOGLE_ADS + '/' + ROTULO_WHATSAPP, value: 1.0, currency: 'BRL', transport_type: 'beacon' });
   });
 
   function abrirNivel2(sim) {

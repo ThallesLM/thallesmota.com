@@ -656,7 +656,9 @@ section[id] { scroll-margin-top: 80px; }
 .cookies-texto { color: var(--tinta); max-width: 80ch; }
 .cookies-botoes { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .aviso-cookies .botao { min-height: 44px; font-size: 15px; padding: 0 20px; background: none; border: 0; cursor: pointer; }
-.aviso-cookies .botao:hover { background: var(--roxo); color: #FFFFFF; }
+/* Só em aparelhos com mouse: no celular, o "hover" fica preso no botão tocado e destacaria um deles. */
+.aviso-cookies .botao:hover { background: none; color: var(--roxo); }
+@media (hover: hover) { .aviso-cookies .botao:hover { background: var(--roxo); color: #FFFFFF; } }
 .cookies-configurar {
   min-height: 44px;
   padding: 0 8px;
