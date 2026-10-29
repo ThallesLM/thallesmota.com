@@ -622,3 +622,86 @@ section[id] { scroll-margin-top: 80px; }
 .marca-nome { font-weight: 800; letter-spacing: -0.02em; }
 .servico h3, .valor strong, .recebe h3, .compromissos-lista h3, .referencias h3 { font-weight: 700; letter-spacing: -0.02em; }
 .depoimento p { font-weight: 400; }
+
+/* ---------- Rodapé: links e preferências de cookies ---------- */
+.rodape-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.rodape-cookies {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #FFFFFF;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------- Aviso de cookies (Guia de Cookies da ANPD, 2022) ----------
+   "Rejeitar" e "Aceitar" têm o mesmo estilo: nenhum dos dois é destacado. */
+.aviso-cookies {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 26;
+  background: var(--papel);
+  border-top: 1px solid var(--linha);
+  box-shadow: 0 -12px 32px rgba(27, 21, 48, 0.10);
+  font-size: 15px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.aviso-cookies[hidden] { display: none; }
+.aviso-cookies .faixa { padding-top: 18px; padding-bottom: 18px; display: grid; gap: 14px; }
+.cookies-texto { color: var(--tinta); max-width: 80ch; }
+.cookies-botoes { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.aviso-cookies .botao { min-height: 44px; font-size: 15px; padding: 0 20px; background: none; border: 0; cursor: pointer; }
+.aviso-cookies .botao:hover { background: var(--roxo); color: #FFFFFF; }
+.cookies-configurar {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--roxo);
+  font: 600 15px/1 var(--sans);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.cookies-configurar[hidden] { display: none; }
+.cookies-nivel2 { display: grid; gap: 10px; justify-items: start; }
+.cookies-nivel2[hidden] { display: none; }
+.cookies-categoria {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  background: var(--lavanda);
+  border-radius: 10px;
+}
+.cookies-categoria strong { display: block; font-weight: 700; }
+.cookies-categoria span span, .cookies-categoria div span { display: block; color: var(--suave); font-size: 14px; }
+label.cookies-categoria { cursor: pointer; }
+.cookies-sempre { color: var(--suave); font-size: 14px; white-space: nowrap; }
+.cookies-chave { width: 22px; height: 22px; flex: none; accent-color: var(--roxo); cursor: pointer; }
+@media (max-width: 720px) {
+  .com-aviso-cookies .barra-whats { display: none; }
+  .cookies-botoes .botao { flex: 1 1 100%; }
+}
+
+/* ---------- Página de privacidade ---------- */
+.texto-legal { max-width: 72ch; }
+.texto-legal h1 { font-family: var(--serifa); font-weight: 700; font-size: clamp(32px, 4vw, 44px); line-height: 1.12; letter-spacing: -0.03em; }
+.texto-legal .atualizado { color: var(--suave); font-size: 15px; margin-top: 12px; }
+.texto-legal h2 { font-weight: 700; font-size: 22px; letter-spacing: -0.02em; margin-top: 44px; }
+.texto-legal p, .texto-legal ul, .texto-legal table { margin-top: 14px; }
+.texto-legal ul { padding-left: 22px; }
+.texto-legal li + li { margin-top: 6px; }
+.texto-legal table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.texto-legal th, .texto-legal td { text-align: left; vertical-align: top; padding: 10px 8px; border-bottom: 1px solid var(--linha); }
+.texto-legal th { font-weight: 700; }
+.tabela-rolagem { overflow-x: auto; }
+.link-cookies { padding: 0; border: 0; background: none; color: var(--roxo); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.link-cookies:hover { color: var(--roxo-profundo); }
