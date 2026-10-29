@@ -5,18 +5,11 @@
    Cores: branco (papel), roxo (tinta), verde (ação e validação).
    ========================================================== */
 
-/* Fontes locais (subconjunto latino do Google Fonts, licença OFL) */
+/* Fonte local (subconjunto latino do Google Fonts, licença OFL) */
 @font-face {
-  font-family: "Newsreader";
-  src: url("../fonts/newsreader.woff2") format("woff2");
-  font-weight: 400 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Instrument Sans";
-  src: url("../fonts/instrument-sans.woff2") format("woff2");
-  font-weight: 400 600;
+  font-family: "Plus Jakarta Sans";
+  src: url("../fonts/plus-jakarta-sans.woff2") format("woff2");
+  font-weight: 400 800;
   font-style: normal;
   font-display: swap;
 }
@@ -34,8 +27,8 @@
   --verde: #0E7A50;
   --verde-escuro: #0A5E3D;
 
-  --serifa: "Newsreader", Georgia, serif;
-  --sans: "Instrument Sans", system-ui, sans-serif;
+  --serifa: "Plus Jakarta Sans", system-ui, sans-serif;
+  --sans: "Plus Jakarta Sans", system-ui, sans-serif;
 
   --largura: 1200px;
   --margem: clamp(20px, 5vw, 56px);
@@ -623,3 +616,9 @@ section[id] { scroll-margin-top: 80px; }
   .tabela-folha { font-size: 14px; }
   .tabela-folha th, .tabela-folha td { padding: 10px 5px; }
 }
+
+/* ---------- Títulos em negrito (fonte única, Plus Jakarta Sans) ---------- */
+.titulo, .abertura h1, .chamada h2 { font-weight: 700; letter-spacing: -0.03em; }
+.marca-nome { font-weight: 800; letter-spacing: -0.02em; }
+.servico h3, .valor strong, .recebe h3, .compromissos-lista h3, .referencias h3 { font-weight: 700; letter-spacing: -0.02em; }
+.depoimento p { font-weight: 400; }
