@@ -2,10 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://thallesmota.com/</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://thallesmota.com/consultoria/</loc>
+    <lastmod>2026-11-03</lastmod>
   </url>
   <url>
     <loc>https://thallesmota.com/privacidade.html</loc>
     <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://thallesmota.com/portfolio/graos-de-soja/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://thallesmota.com/portfolio/saude-mental-adolescentes/</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://thallesmota.com/portfolio/bioms-zaku/</loc>
+    <lastmod>2026-11-03</lastmod>
   </url>
 </urlset>

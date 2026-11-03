@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aprendizado de máquina multirregional em saúde mental de adolescentes | Thalles Mota</title>
+  <meta name="description" content="Síntese de três estudos publicados em 2026 (BRACIS, KDMiLe e Congresso de IA de Mato Grosso) com a PeNSE 2019, sempre avaliados em estados fora do treino.">
+  <meta name="theme-color" content="#251848">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://thallesmota.com/portfolio/saude-mental-adolescentes/">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Aprendizado de máquina multirregional em saúde mental de adolescentes: síntese de três estudos com a PeNSE 2019">
+  <meta property="og:description" content="Síntese de três estudos publicados em 2026 (BRACIS, KDMiLe e Congresso de IA de Mato Grosso) com a PeNSE 2019, sempre avaliados em estados fora do treino.">
+  <meta property="og:url" content="https://thallesmota.com/portfolio/saude-mental-adolescentes/">
+  <meta property="og:image" content="https://thallesmota.com/portfolio/saude-mental-adolescentes/figura-regioes.png">
+  <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="artigo">
+
+  <a href="#conteudo" class="pular">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="faixa">
+      <a href="../../" class="marca">
+        <span class="marca-nome">Thalles Mota</span>
+        <span class="marca-area">Ciência de dados</span>
+      </a>
+      <div class="topo-acoes">
+        <a href="../../#projetos" class="botao botao-linha">Todos os projetos</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <article class="artigo-corpo">
+      <h1>Aprendizado de máquina multirregional em saúde mental de adolescentes: síntese de três estudos com a PeNSE 2019</h1>
+      <p class="artigo-autor">Thalles Paul Leandro Mota</p>
+      <p class="artigo-meta">Relatório técnico · novembro de 2026</p>
+
+      <p class="artigo-resumo"><b>Resumo.</b> Este relatório sintetiza três estudos publicados em 2026 que aplicam aprendizado de máquina aos dados da Pesquisa Nacional de Saúde do Escolar (PeNSE 2019) para identificar adolescentes em risco, sempre avaliando os modelos em estados que não participaram do treino. O primeiro classificou o risco de uso frequente de substâncias no Centro-Oeste, com validação em Mato Grosso (AUROC 0,89; recall 0,80). O segundo classificou sofrimento psicológico em escala nacional, com treino em uma unidade da federação por macrorregião e avaliação nas 22 restantes (AUROC 0,87; F2 0,71), e mostrou que a sensibilidade se mantém sem a variável de tristeza. O terceiro investigou de onde vem a dificuldade desses problemas e concluiu que ela depende mais da definição do alvo do que das variáveis disponíveis.</p>
+      <p class="artigo-ficha"><b>Ferramentas:</b> Python · XGBoost · LightGBM · CatBoost · Optuna · SHAP. <b>Código:</b> privado; demonstração sob solicitação.</p>
+
+      <h2>1. Desenho comum</h2>
+      <p>Os três estudos usam a PeNSE 2019 (IBGE), priorizam a sensibilidade, já que em triagem deixar de identificar um adolescente em risco custa mais que um alarme falso, e fazem validação geográfica: o treino usa alguns estados, e a avaliação usa estados que o modelo nunca viu. Os modelos são de <i>gradient boosting</i> otimizados com Optuna, e os critérios aprendidos são examinados com SHAP.</p>
+      <figure class="artigo-figura">
+        <img src="figura-regioes.png" width="668" height="379" alt="Gráfico: F2 por macrorregião em estados fora do treino, com e sem a variável de tristeza." loading="lazy">
+        <figcaption>Figura 1. F2 mediano do sistema combinado (índice de risco e classificador) por macrorregião, em estados fora do treino, com e sem a variável de tristeza (dados de Mota et al., BRACIS 2026).</figcaption>
+      </figure>
+      <h2>2. Principais resultados</h2>
+      <ul>
+        <li>Uso frequente de substâncias no Centro-Oeste, com treino em MS, GO e DF e validação em MT: AUROC de 0,89 e recall entre 0,80 e 0,81; amigos fumantes, uso recente de álcool e vida sexual ativa foram os preditores de maior peso.</li>
+        <li>Sofrimento psicológico em escala nacional (105.116 registros): AUROC de 0,87, F2 de 0,71 e recall de 0,84 em estados não vistos; sem a variável de tristeza, o recall praticamente não mudou (0,83).</li>
+        <li>Um índice aditivo de risco construído dos pesos de SHAP, sem modelar interações, ficou a 0,016 a 0,021 de F2 do classificador: um instrumento auditável.</li>
+        <li>Remover todo o bloco de variáveis de álcool quase não alterou a dificuldade por instância (0,057 para 0,063), enquanto ampliar o alvo a elevou cerca de 2,5 vezes (0,057 para 0,142).</li>
+      </ul>
+      <figure class="artigo-figura">
+        <img src="figura-dificuldade.png" width="693" height="327" alt="Gráfico: dificuldade média por instância em três variantes do mesmo problema." loading="lazy">
+        <figcaption>Figura 2. Dificuldade média por instância em três variantes do mesmo problema (dados de Mota et al., KDMiLe 2026).</figcaption>
+      </figure>
+      <h2>3. Aplicação prática</h2>
+      <ul>
+        <li>Triagem escolar de risco: priorizar a sensibilidade (recall) e aceitar mais alarmes falsos, com limiar calibrado por região.</li>
+        <li>Instrumento auditável: um índice aditivo de risco, construído dos critérios estáveis do modelo, quase iguala o classificador e pode ser conferido por profissionais de saúde.</li>
+        <li>Implantação em novos estados: validar sempre em estados fora do treino, porque o desempenho varia entre macrorregiões.</li>
+        <li>Antes de coletar mais variáveis, revisar a definição do desfecho: nesses problemas, ela pesa mais na dificuldade.</li>
+      </ul>
+      <h2>4. Limitações</h2>
+      <p>Os dados são de 2019, anteriores à pandemia. Os desfechos são autorrelatados e funcionam como indicadores de sofrimento ou risco, não como diagnóstico clínico; os sistemas foram pensados para triagem e monitoramento.</p>
+      <div class="artigo-acoes">
+        <a href="relatorio.pdf" class="botao botao-verde">Ler o relatório técnico (PDF)</a>
+        <a href="../../#projetos" class="botao botao-linha">Outros projetos</a>
+      </div>
+      <h2>Referências</h2>
+      <ol class="artigo-refs">
+        <li>Mota, T. P. L. e Martins, C. A. (2026). Aprendizado de máquina na classificação do risco de uso frequente de substâncias em adolescentes na região Centro-Oeste. In <i>Anais do Congresso de Inteligência Artificial de Mato Grosso</i>. doi:10.29327/9786527222910.1448987.</li>
+        <li>Mota, T. P. L., Gonçalves, L. C. O., Oliveira, A. C. S. e Martins, C. A. (2026). Classifying psychological distress in Brazilian adolescents: a multi-regional machine learning approach. In <i>Intelligent Systems (BRACIS 2026)</i>, LNAI 17109, p. 546–560. Springer. doi:10.1007/978-3-032-39904-5_37.</li>
+        <li>Mota, T., Garcia, L. A. V. e Martins, C. (2026). Where does hardness come from? An instance hardness analysis of substance-use prediction in Brazilian adolescents. In <i>Anais do XIV KDMiLe</i>, p. 265–272. SBC. doi:10.5753/kdmile.2026.31988.</li>
+      </ol>
+    </article>
+  </main>
+
+  <footer class="rodape">
+    <div class="faixa">
+      <span>Thalles Mota, Consultoria em Análise de Dados. Rondonópolis/MT, atendimento online. CNPJ 67.105.344/0001-36.</span>
+      <span class="rodape-links">
+        <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
+        <a href="../../privacidade.html">Privacidade</a>
+      </span>
+    </div>
+  </footer>
+
+</body>
+</html>

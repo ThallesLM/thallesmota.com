@@ -542,7 +542,7 @@ section[id] { scroll-margin-top: 80px; }
 .barra-whats { display: none; }
 
 /* ---------- Telas menores ---------- */
-@media (max-width: 1180px) {
+@media (max-width: 1320px) {
   .menu-botao { display: inline-flex; }
   .menu {
     display: none;
@@ -707,3 +707,44 @@ label.cookies-categoria { cursor: pointer; }
 .tabela-rolagem { overflow-x: auto; }
 .link-cookies { padding: 0; border: 0; background: none; color: var(--roxo); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .link-cookies:hover { color: var(--roxo-profundo); }
+
+/* ---------- Portfólio: páginas no modelo de artigo SBC (portfolio/…) ---------- */
+.artigo { --serifa-artigo: "Times New Roman", Times, "Nimbus Roman", "TeX Gyre Termes", "Liberation Serif", serif; }
+.artigo main { min-height: calc(100vh - 180px); }
+.artigo-corpo { max-width: 760px; margin: 0 auto; padding: clamp(40px, 7vw, 80px) var(--margem) clamp(56px, 8vw, 96px);
+  font-family: var(--serifa-artigo); font-size: 18px; line-height: 1.55; color: #111; }
+.artigo-corpo h1 { font-family: var(--serifa-artigo); font-size: clamp(24px, 3.2vw, 30px); font-weight: 700; line-height: 1.25;
+  text-align: center; letter-spacing: 0; margin: 0; }
+.artigo-corpo .artigo-autor { text-align: center; text-indent: 0; font-weight: 700; margin-top: 14px; }
+.artigo-corpo .artigo-meta { text-align: center; text-indent: 0; margin-top: 4px; font-size: 16px; color: #333; }
+.artigo-corpo .artigo-resumo { margin: 28px clamp(0px, 4vw, 32px) 0; text-indent: 0; font-style: italic; text-align: justify; hyphens: auto; }
+.artigo-resumo b { font-style: italic; }
+.artigo-corpo h2 { font-family: var(--serifa-artigo); font-size: 20px; font-weight: 700; letter-spacing: 0; margin: 30px 0 6px; }
+.artigo-corpo p { margin: 8px 0 0; text-align: justify; hyphens: auto; }
+.artigo-corpo p + p { text-indent: 1.27cm; }
+.artigo-corpo ul, .artigo-corpo ol { margin: 8px 0 0; padding-left: 1.27cm; }
+.artigo-corpo li { margin-top: 4px; text-align: justify; hyphens: auto; }
+.artigo-corpo .artigo-ficha { margin-top: 14px; text-indent: 0; text-align: left; font-size: 16px; color: #333; }
+.artigo-ficha a { color: var(--roxo); }
+.artigo-contatos { text-align: center !important; }
+.artigo-lista .artigo-lista-ferramentas { font-size: 14px; color: #666; margin-top: 2px; }
+.artigo-figura { margin: 22px 0 0; text-align: center; }
+.artigo-figura img { display: inline-block; width: 100%; max-width: 560px; height: auto; }
+.artigo-figura figcaption { margin: 8px auto 0; max-width: 600px; font-family: Helvetica, Arial, sans-serif; font-size: 13px;
+  font-weight: 700; line-height: 1.4; text-align: left; color: #111; }
+.artigo-acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; font-family: var(--sans); }
+.artigo-acoes .botao { min-height: 44px; font-size: 15px; }
+.artigo-corpo .artigo-refs { margin-top: 8px; padding-left: 0; list-style: none; font-size: 16px; }
+.artigo-refs li { margin-top: 6px; padding-left: 1.27cm; text-indent: -1.27cm; text-align: left; }
+.artigo-corpo .artigo-lista { list-style: none; padding: 0; margin: 18px 0 0; }
+.artigo-lista li { padding: 18px 0; border-top: 1px solid #ddd; text-align: left; }
+.artigo-lista li:last-child { border-bottom: 1px solid #ddd; }
+.artigo-lista a { color: #111; text-decoration: none; font-weight: 700; font-size: 19px; }
+.artigo-lista a:hover { text-decoration: underline; }
+.artigo-lista span { display: block; margin-top: 4px; font-size: 16px; color: #333; }
+@media (max-width: 560px) {
+  .artigo-corpo { font-size: 17px; }
+  .artigo-corpo p, .artigo-corpo li, .artigo-corpo .artigo-resumo { text-align: left; }
+  .artigo-corpo p + p { text-indent: 0; }
+}
+.artigo-retrato { display: block; width: 150px; height: 150px; margin: 0 auto 22px; border-radius: 50%; object-fit: cover; }

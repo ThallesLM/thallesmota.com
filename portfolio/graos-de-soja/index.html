@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classificadores de grãos de soja entre equipamentos | Thalles Mota</title>
+  <meta name="description" content="Relatório técnico: quanto um classificador de defeitos em grãos de soja perde em outro equipamento e em outra base de imagens, por quê, e quanto dado novo recupera o desempenho.">
+  <meta name="theme-color" content="#251848">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://thallesmota.com/portfolio/graos-de-soja/">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Generalização de classificadores de defeitos em grãos de soja entre equipamentos: um estudo com dados abertos">
+  <meta property="og:description" content="Relatório técnico: quanto um classificador de defeitos em grãos de soja perde em outro equipamento e em outra base de imagens, por quê, e quanto dado novo recupera o desempenho.">
+  <meta property="og:url" content="https://thallesmota.com/portfolio/graos-de-soja/">
+  <meta property="og:image" content="https://thallesmota.com/portfolio/graos-de-soja/figura-unidade.png">
+  <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="artigo">
+
+  <a href="#conteudo" class="pular">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="faixa">
+      <a href="../../" class="marca">
+        <span class="marca-nome">Thalles Mota</span>
+        <span class="marca-area">Ciência de dados</span>
+      </a>
+      <div class="topo-acoes">
+        <a href="../../#projetos" class="botao botao-linha">Todos os projetos</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <article class="artigo-corpo">
+      <h1>Generalização de classificadores de defeitos em grãos de soja entre equipamentos: um estudo com dados abertos</h1>
+      <p class="artigo-autor">Thalles Paul Leandro Mota</p>
+      <p class="artigo-meta">Relatório técnico · novembro de 2026</p>
+
+      <p class="artigo-resumo"><b>Resumo.</b> Equipamentos que classificam grãos de soja por imagem só padronizam a classificação se o modelo mantiver o desempenho em unidades onde não foi treinado. Este relatório mede essa perda com duas bases públicas (10.343 imagens), tratando três regiões como três unidades de equipamento. Separar as fotos uma a uma, e não por bandeja, inflou a acurácia balanceada em 4,4 pontos. Numa unidade nunca vista, o modelo perdeu 14,2 pontos, recuperados quando parte das amostras da unidade entrou no treino. Entre bases de origens diferentes, o desempenho caiu ao nível do acaso; 50 imagens rotuladas da base nova levaram a acurácia a 86,9. Enviar à revisão humana os 10% de grãos mais duvidosos elevou a acurácia de 91,4 para 95,2 em unidade conhecida, mas pouco ajudou em unidade nova, onde o modelo erra com confiança. Das seis previsões registradas antes dos testes, 4 se confirmaram.</p>
+      <p class="artigo-ficha"><b>Ferramentas:</b> Python · PyTorch · timm · scikit-learn · pandas · matplotlib · LaTeX. <b>Código:</b> privado; demonstração sob solicitação.</p>
+
+      <h2>1. Problema</h2>
+      <p>No Brasil, a soja é classificada pelo padrão oficial do Ministério da Agricultura (IN 11/2007): numa amostra de cada carga, um classificador separa visualmente os grãos avariados e pesa cada grupo. Equipamentos que fotografam cada grão e o classificam com aprendizado de máquina prometem rapidez e o mesmo critério em todas as unidades, desde que o modelo mantenha o desempenho numa unidade em que não foi treinado.</p>
+      <h2>2. Método</h2>
+      <p>Duas bases abertas: SOYPR (4.830 imagens de três regiões do Paraná, sete classes) e Mendeley (5.513 imagens, cinco classes, licença CC BY 4.0, auditada para imagens repetidas). Treino e teste separados por bandeja física e congelados antes de qualquer modelo; avaliação deixando cada unidade de fora; modelos concorrentes medidos nas mesmas bandejas, em 20 repetições; hiperparâmetros escolhidos sem tocar no teste; seis previsões registradas antes dos testes.</p>
+      <figure class="artigo-figura">
+        <img src="figura-unidade.png" width="694" height="401" alt="Gráfico: acurácia balanceada por unidade para o modelo treinado na própria unidade, sem a unidade e geral com parte da unidade." loading="lazy">
+        <figcaption>Figura 1. Acurácia balanceada por foto nas mesmas bandejas de teste de cada unidade.</figcaption>
+      </figure>
+      <h2>3. Principais resultados</h2>
+      <ul>
+        <li>Numa unidade nunca vista, a acurácia balanceada caiu de 79,4 para 65,2, na mesma direção nas 20 repetições; com parte das bandejas da unidade no treino, o modelo geral chegou a 80,2.</li>
+        <li>Entre bases de origens diferentes, o desempenho caiu ao acaso; treinar só com as imagens novas foi melhor do que juntá-las à base antiga (86,9 com 50 imagens e 90,3 com 200).</li>
+        <li>Uma rede mais recente (DINOv2) perdeu menos na unidade nova que a do artigo de referência (+4,2 pontos), sem eliminar a perda.</li>
+        <li>A dúvida do modelo orientou bem a revisão humana em unidade conhecida (91,4 para 95,2 revisando 10% dos grãos), mas não em unidade nova.</li>
+      </ul>
+      <figure class="artigo-figura">
+        <img src="figura-poucas-fotos.png" width="617" height="382" alt="Gráfico: acurácia balanceada na base nova conforme o número de imagens rotuladas, para três estratégias." loading="lazy">
+        <figcaption>Figura 2. Base nova: acurácia balanceada conforme o número de imagens rotuladas, medida em bandejas fora do sorteio.</figcaption>
+      </figure>
+      <h2>4. Aplicação prática</h2>
+      <ul>
+        <li>Equipamento já conhecido: comitê de duas redes e revisão humana dos 10% de grãos mais duvidosos (acurácia balanceada por grão de 91,4 para 95,2).</li>
+        <li>Equipamento novo, sem dados dele: validar antes de usar; mesmo o melhor modelo (DINOv2) ficou em 76,8 por grão.</li>
+        <li>Equipamento novo, com parte das amostras dele no treino: o modelo geral volta ao nível do modelo local (87,8 por grão).</li>
+        <li>Outra base de imagens: coletar de 50 a 200 imagens rotuladas e treinar só com elas (86,9 e 90,3, intacto ou defeituoso); avaliar sempre por amostra e por unidade, nunca foto a foto.</li>
+      </ul>
+      <h2>5. Limitações</h2>
+      <p>As unidades do estudo são regiões fotografadas, e não equipamentos distintos; os efeitos do equipamento, da região e do classificador de referência não se separam. A comparação entre bases usa apenas a tarefa intacto ou defeituoso.</p>
+      <div class="artigo-acoes">
+        <a href="relatorio.pdf" class="botao botao-verde">Ler o relatório técnico (PDF)</a>
+        <a href="../../#projetos" class="botao botao-linha">Outros projetos</a>
+      </div>
+      <h2>Referências</h2>
+      <ol class="artigo-refs">
+        <li>Lin, W. et al. (2023). Soybean image dataset for classification. <i>Data in Brief</i>, 48:109300.</li>
+        <li>MAPA (2007). Instrução Normativa n. 11, de 15 de maio de 2007: Regulamento Técnico da Soja.</li>
+        <li>Pereira, G. M. L., Foleis, J. H., Brito Jr., A. S. e Bertolini, D. (2024). A database for soybean seed classification. In <i>37th SIBGRAPI</i>. IEEE.</li>
+      </ol>
+    </article>
+  </main>
+
+  <footer class="rodape">
+    <div class="faixa">
+      <span>Thalles Mota, Consultoria em Análise de Dados. Rondonópolis/MT, atendimento online. CNPJ 67.105.344/0001-36.</span>
+      <span class="rodape-links">
+        <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
+        <a href="../../privacidade.html">Privacidade</a>
+      </span>
+    </div>
+  </footer>
+
+</body>
+</html>

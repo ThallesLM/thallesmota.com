@@ -20,7 +20,7 @@
   aviso.hidden = true;
   aviso.innerHTML =
     '<div class="faixa">' +
-      '<p class="cookies-texto">Este site usa cookies necessários para funcionar. Com a sua permissão, também usa cookies de publicidade do Google, para medir se os anúncios trazem contatos. Saiba mais na <a href="privacidade.html#cookies">política de privacidade</a>.</p>' +
+      '<p class="cookies-texto">Este site usa cookies necessários para funcionar. Com a sua permissão, também usa cookies de publicidade do Google, para medir se os anúncios trazem contatos. Saiba mais na <a href="/privacidade.html#cookies">política de privacidade</a>.</p>' +
       '<div class="cookies-nivel2" hidden>' +
         '<div class="cookies-categoria">' +
           '<span><strong>Necessários</strong><span>Guardam a sua escolha sobre cookies.</span></span>' +
