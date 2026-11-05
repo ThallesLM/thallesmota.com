@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aprendizado de máquina multirregional em saúde mental de adolescentes | Thalles Mota</title>
-  <meta name="description" content="Síntese de três estudos publicados em 2026 (BRACIS, KDMiLe e Congresso de IA de Mato Grosso) com a PeNSE 2019, sempre avaliados em estados fora do treino.">
+  <title>Machine learning for adolescent mental health | Thalles Mota</title>
+  <meta name="description" content="Synthesis of three studies published in 2026 (BRACIS, KDMiLe and the Mato Grosso AI congress) with Brazil&#x27;s school health survey, always evaluated in states the models never saw.">
   <meta name="theme-color" content="#251848">
   <link rel="icon" href="../../favicon.ico" sizes="48x48">
   <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://thallesmota.com/portfolio/saude-mental-adolescentes/">
   <meta property="og:type" content="article">
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:title" content="Aprendizado de máquina multirregional em saúde mental de adolescentes: síntese de três estudos com a PeNSE 2019">
-  <meta property="og:description" content="Síntese de três estudos publicados em 2026 (BRACIS, KDMiLe e Congresso de IA de Mato Grosso) com a PeNSE 2019, sempre avaliados em estados fora do treino.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Multi-regional machine learning for adolescent mental health: a synthesis of three studies with PeNSE 2019">
+  <meta property="og:description" content="Synthesis of three studies published in 2026 (BRACIS, KDMiLe and the Mato Grosso AI congress) with Brazil&#x27;s school health survey, always evaluated in states the models never saw.">
   <meta property="og:url" content="https://thallesmota.com/portfolio/saude-mental-adolescentes/">
   <meta property="og:image" content="https://thallesmota.com/portfolio/saude-mental-adolescentes/figura-regioes.png">
   <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,74 +20,72 @@
 </head>
 <body class="artigo">
 
-  <a href="#conteudo" class="pular">Pular para o conteúdo</a>
+  <a href="#conteudo" class="pular">Skip to content</a>
 
   <header class="topo">
     <div class="faixa">
       <a href="../../" class="marca">
         <span class="marca-nome">Thalles Mota</span>
-        <span class="marca-area">Ciência de dados</span>
+        <span class="marca-area">Data science</span>
       </a>
       <div class="topo-acoes">
-        <a href="../../#projetos" class="botao botao-linha">Todos os projetos</a>
+        <a href="../../#projetos" class="botao botao-linha">All projects</a>
       </div>
     </div>
   </header>
 
   <main id="conteudo">
     <article class="artigo-corpo">
-      <h1>Aprendizado de máquina multirregional em saúde mental de adolescentes: síntese de três estudos com a PeNSE 2019</h1>
+      <h1>Multi-regional machine learning for adolescent mental health: a synthesis of three studies with PeNSE 2019</h1>
       <p class="artigo-autor">Thalles Paul Leandro Mota</p>
-      <p class="artigo-meta">Relatório técnico · novembro de 2026</p>
+      <p class="artigo-meta">Technical report · November 2026</p>
 
-      <p class="artigo-resumo"><b>Resumo.</b> Este relatório sintetiza três estudos publicados em 2026 que aplicam aprendizado de máquina aos dados da Pesquisa Nacional de Saúde do Escolar (PeNSE 2019) para identificar adolescentes em risco, sempre avaliando os modelos em estados que não participaram do treino. O primeiro classificou o risco de uso frequente de substâncias no Centro-Oeste, com validação em Mato Grosso (AUROC 0,89; recall 0,80). O segundo classificou sofrimento psicológico em escala nacional, com treino em uma unidade da federação por macrorregião e avaliação nas 22 restantes (AUROC 0,87; F2 0,71), e mostrou que a sensibilidade se mantém sem a variável de tristeza. O terceiro investigou de onde vem a dificuldade desses problemas e concluiu que ela depende mais da definição do alvo do que das variáveis disponíveis.</p>
-      <p class="artigo-ficha"><b>Ferramentas:</b> Python · XGBoost · LightGBM · CatBoost · Optuna · SHAP. <b>Código:</b> privado; demonstração sob solicitação.</p>
-
-      <h2>1. Desenho comum</h2>
-      <p>Os três estudos usam a PeNSE 2019 (IBGE), priorizam a sensibilidade, já que em triagem deixar de identificar um adolescente em risco custa mais que um alarme falso, e fazem validação geográfica: o treino usa alguns estados, e a avaliação usa estados que o modelo nunca viu. Os modelos são de <i>gradient boosting</i> otimizados com Optuna, e os critérios aprendidos são examinados com SHAP.</p>
-      <figure class="artigo-figura">
-        <img src="figura-regioes.png" width="668" height="379" alt="Gráfico: F2 por macrorregião em estados fora do treino, com e sem a variável de tristeza." loading="lazy">
-        <figcaption>Figura 1. F2 mediano do sistema combinado (índice de risco e classificador) por macrorregião, em estados fora do treino, com e sem a variável de tristeza (dados de Mota et al., BRACIS 2026).</figcaption>
-      </figure>
-      <h2>2. Principais resultados</h2>
-      <ul>
-        <li>Uso frequente de substâncias no Centro-Oeste, com treino em MS, GO e DF e validação em MT: AUROC de 0,89 e recall entre 0,80 e 0,81; amigos fumantes, uso recente de álcool e vida sexual ativa foram os preditores de maior peso.</li>
-        <li>Sofrimento psicológico em escala nacional (105.116 registros): AUROC de 0,87, F2 de 0,71 e recall de 0,84 em estados não vistos; sem a variável de tristeza, o recall praticamente não mudou (0,83).</li>
-        <li>Um índice aditivo de risco construído dos pesos de SHAP, sem modelar interações, ficou a 0,016 a 0,021 de F2 do classificador: um instrumento auditável.</li>
-        <li>Remover todo o bloco de variáveis de álcool quase não alterou a dificuldade por instância (0,057 para 0,063), enquanto ampliar o alvo a elevou cerca de 2,5 vezes (0,057 para 0,142).</li>
-      </ul>
-      <figure class="artigo-figura">
-        <img src="figura-dificuldade.png" width="693" height="327" alt="Gráfico: dificuldade média por instância em três variantes do mesmo problema." loading="lazy">
-        <figcaption>Figura 2. Dificuldade média por instância em três variantes do mesmo problema (dados de Mota et al., KDMiLe 2026).</figcaption>
-      </figure>
-      <h2>3. Aplicação prática</h2>
-      <ul>
-        <li>Triagem escolar de risco: priorizar a sensibilidade (recall) e aceitar mais alarmes falsos, com limiar calibrado por região.</li>
-        <li>Instrumento auditável: um índice aditivo de risco, construído dos critérios estáveis do modelo, quase iguala o classificador e pode ser conferido por profissionais de saúde.</li>
-        <li>Implantação em novos estados: validar sempre em estados fora do treino, porque o desempenho varia entre macrorregiões.</li>
-        <li>Antes de coletar mais variáveis, revisar a definição do desfecho: nesses problemas, ela pesa mais na dificuldade.</li>
-      </ul>
-      <h2>4. Limitações</h2>
-      <p>Os dados são de 2019, anteriores à pandemia. Os desfechos são autorrelatados e funcionam como indicadores de sofrimento ou risco, não como diagnóstico clínico; os sistemas foram pensados para triagem e monitoramento.</p>
-      <div class="artigo-acoes">
-        <a href="relatorio.pdf" class="botao botao-verde">Ler o relatório técnico (PDF)</a>
-        <a href="../../#projetos" class="botao botao-linha">Outros projetos</a>
+      <div class="artigo-destaques">
+        <div><b>3</b><span>papers published in 2026</span></div>
+        <div><b>0.87</b><span>AUROC for psychological distress in states never seen in training</span></div>
+        <div><b>0.84</b><span>recall: share of at-risk adolescents the screening found</span></div>
       </div>
-      <h2>Referências</h2>
+      <p class="artigo-resumo"><b>Abstract.</b> This report brings together three studies published in 2026 that apply machine learning to Brazil&#x27;s National School Health Survey (PeNSE 2019) to identify adolescents at risk, always evaluating the models in states that took no part in training. The first classified the risk of frequent substance use in the Center-West, validated in Mato Grosso (AUROC 0.89; recall 0.80). The second classified psychological distress nationwide, training on one state per macro-region and evaluating on the remaining 22 (AUROC 0.87; F2 0.71), and showed that sensitivity holds without the sadness variable. The third asked where the difficulty of these problems comes from and found that it depends more on how the target is defined than on the variables available.</p>
+      <p class="artigo-ficha"><b>My role:</b> first author: study design, modeling, stability analysis and writing. <b>Tools:</b> Python · XGBoost · LightGBM · CatBoost · Optuna · SHAP. <b>Code:</b> private; demonstration on request.</p>
+
+      <h2>1. Why I studied this</h2>
+      <p>Adolescent mental health is a social problem, and Brazil has laws to protect young people. Researchers around the world now use machine learning to flag adolescents at risk, but few look hard at whether the variables a model relies on are stable, whether it can be trusted outside the data it was trained on, and how its findings relate to what epidemiology already knows. That is what I set out to examine during my master's degree, and these three papers are the result.</p>
+      <p>The data come from PeNSE 2019, the national school health survey run by Brazil's statistics institute. Brazil is the size of a continent, so a model built with data from a few states has to prove itself in the others. Every model here was trained on some states and judged only on states it had never seen, and the screening models were tuned for sensitivity, because in screening, missing an adolescent at risk costs more than a false alarm.</p>
+      <figure class="artigo-figura">
+        <img src="figura-regioes.png" width="663" height="376" alt="Chart: F2 by macro-region in states outside training, with and without the sadness variable." loading="lazy">
+        <figcaption>Figure 1. Median F2 of the combined system (risk index and classifier) by macro-region, in states outside training, with and without the sadness variable (data from Mota et al., BRACIS 2026).</figcaption>
+      </figure>
+      <h2>2. What the three studies found</h2>
+      <p>The first study looked at frequent substance use in the Center-West. Trained on two states and the Federal District and tested only on Mato Grosso, the model reached an AUROC of 0.89 and found 80 to 81% of the adolescents at risk; having friends who smoke, recent alcohol use and being sexually active weighed most, while family supervision and parental support protected.</p>
+      <p>The second study took psychological distress to the national scale, with 105,116 records. Trained on one state per macro-region and tested on the other 22, ten times over, the model reached an AUROC of 0.87 and found 84% of the adolescents in distress. The finding I care most about: removing the sadness question, the variable most tied to the outcome, barely changed that share (0.83). We also built a simple additive risk index from the model's own SHAP weights, with no interactions, and it came within 0.02 F2 of the full classifier, which makes it something a health professional can check by hand.</p>
+      <p>The third study asked where the difficulty comes from. Removing every alcohol variable barely made the problem harder (mean instance hardness from 0.057 to 0.063), but widening the target to include alcohol made it about 2.5 times harder (0.142). Past a reasonable set of variables, what you predict matters more than what you predict it with.</p>
+      <figure class="artigo-figura">
+        <img src="figura-dificuldade.png" width="714" height="325" alt="Chart: mean instance hardness in three variants of the same problem." loading="lazy">
+        <figcaption>Figure 2. Mean instance hardness in three variants of the same problem (data from Mota et al., KDMiLe 2026).</figcaption>
+      </figure>
+      <h2>3. What this means in practice</h2>
+      <p>For school screening, choose the metric on purpose: favor recall and accept more false alarms, with thresholds calibrated by region. A risk index built from the model's stable criteria nearly matches the classifier and can be audited by people who are not data scientists. Any rollout to new states should be validated in states outside training, because performance differs between regions. And before collecting more variables, look again at how the outcome is defined.</p>
+      <h2>4. Limitations</h2>
+      <p>The data are from 2019, before the pandemic. The outcomes are self-reported and work as indicators of distress or risk, not as a clinical diagnosis; these systems are meant for screening and monitoring.</p>
+      <div class="artigo-acoes">
+        <a href="relatorio.pdf" class="botao botao-verde">Read the technical report (PDF)</a>
+        <a href="../../#projetos" class="botao botao-linha">Other projects</a>
+      </div>
+      <h2>Published papers</h2>
       <ol class="artigo-refs">
-        <li>Mota, T. P. L. e Martins, C. A. (2026). Aprendizado de máquina na classificação do risco de uso frequente de substâncias em adolescentes na região Centro-Oeste. In <i>Anais do Congresso de Inteligência Artificial de Mato Grosso</i>. doi:10.29327/9786527222910.1448987.</li>
-        <li>Mota, T. P. L., Gonçalves, L. C. O., Oliveira, A. C. S. e Martins, C. A. (2026). Classifying psychological distress in Brazilian adolescents: a multi-regional machine learning approach. In <i>Intelligent Systems (BRACIS 2026)</i>, LNAI 17109, p. 546–560. Springer. doi:10.1007/978-3-032-39904-5_37.</li>
-        <li>Mota, T., Garcia, L. A. V. e Martins, C. (2026). Where does hardness come from? An instance hardness analysis of substance-use prediction in Brazilian adolescents. In <i>Anais do XIV KDMiLe</i>, p. 265–272. SBC. doi:10.5753/kdmile.2026.31988.</li>
+        <li>Mota, T. P. L., Gonçalves, L. C. O., Oliveira, A. C. S. and Martins, C. A. (2026). Classifying psychological distress in Brazilian adolescents: a multi-regional machine learning approach. In <i>Intelligent Systems (BRACIS 2026)</i>, LNAI 17109, p. 546–560. Springer. <a href="https://doi.org/10.1007/978-3-032-39904-5_37">doi:10.1007/978-3-032-39904-5_37</a>.</li>
+        <li>Mota, T., Garcia, L. A. V. and Martins, C. (2026). Where does hardness come from? An instance hardness analysis of substance-use prediction in Brazilian adolescents. In <i>Anais do XIV KDMiLe</i>, p. 265–272. SBC. <a href="https://doi.org/10.5753/kdmile.2026.31988">doi:10.5753/kdmile.2026.31988</a>.</li>
+        <li>Mota, T. P. L. and Martins, C. A. (2026). Machine learning to classify the risk of frequent substance use among adolescents in Brazil's Center-West (in Portuguese). In <i>Anais do Congresso de Inteligência Artificial de Mato Grosso</i>. <a href="https://doi.org/10.29327/9786527222910.1448987">doi:10.29327/9786527222910.1448987</a>.</li>
       </ol>
     </article>
   </main>
 
   <footer class="rodape">
     <div class="faixa">
-      <span>Thalles Mota, Consultoria em Análise de Dados. Rondonópolis/MT, atendimento online. CNPJ 67.105.344/0001-36.</span>
+      <span>Thalles Mota · data science and machine learning · Rondonópolis, Brazil · remote work. CNPJ 67.105.344/0001-36.</span>
       <span class="rodape-links">
         <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
-        <a href="../../privacidade.html">Privacidade</a>
+        <a href="../../privacidade.html">Privacy (in Portuguese)</a>
       </span>
     </div>
   </footer>

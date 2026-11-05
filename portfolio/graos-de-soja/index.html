@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Classificadores de grãos de soja entre equipamentos | Thalles Mota</title>
-  <meta name="description" content="Relatório técnico: quanto um classificador de defeitos em grãos de soja perde em outro equipamento e em outra base de imagens, por quê, e quanto dado novo recupera o desempenho.">
+  <title>Soybean defect classifiers across equipment | Thalles Mota</title>
+  <meta name="description" content="Technical report: how much a soybean defect classifier loses on another machine and another image dataset, why, and how much new data brings the performance back.">
   <meta name="theme-color" content="#251848">
   <link rel="icon" href="../../favicon.ico" sizes="48x48">
   <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://thallesmota.com/portfolio/graos-de-soja/">
   <meta property="og:type" content="article">
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:title" content="Generalização de classificadores de defeitos em grãos de soja entre equipamentos: um estudo com dados abertos">
-  <meta property="og:description" content="Relatório técnico: quanto um classificador de defeitos em grãos de soja perde em outro equipamento e em outra base de imagens, por quê, e quanto dado novo recupera o desempenho.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="How soybean defect classifiers generalize across equipment: a study with open data">
+  <meta property="og:description" content="Technical report: how much a soybean defect classifier loses on another machine and another image dataset, why, and how much new data brings the performance back.">
   <meta property="og:url" content="https://thallesmota.com/portfolio/graos-de-soja/">
   <meta property="og:image" content="https://thallesmota.com/portfolio/graos-de-soja/figura-unidade.png">
   <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
@@ -20,76 +20,74 @@
 </head>
 <body class="artigo">
 
-  <a href="#conteudo" class="pular">Pular para o conteúdo</a>
+  <a href="#conteudo" class="pular">Skip to content</a>
 
   <header class="topo">
     <div class="faixa">
       <a href="../../" class="marca">
         <span class="marca-nome">Thalles Mota</span>
-        <span class="marca-area">Ciência de dados</span>
+        <span class="marca-area">Data science</span>
       </a>
       <div class="topo-acoes">
-        <a href="../../#projetos" class="botao botao-linha">Todos os projetos</a>
+        <a href="../../#projetos" class="botao botao-linha">All projects</a>
       </div>
     </div>
   </header>
 
   <main id="conteudo">
     <article class="artigo-corpo">
-      <h1>Generalização de classificadores de defeitos em grãos de soja entre equipamentos: um estudo com dados abertos</h1>
+      <h1>How soybean defect classifiers generalize across equipment: a study with open data</h1>
       <p class="artigo-autor">Thalles Paul Leandro Mota</p>
-      <p class="artigo-meta">Relatório técnico · novembro de 2026</p>
+      <p class="artigo-meta">Technical report · November 2026</p>
 
-      <p class="artigo-resumo"><b>Resumo.</b> Equipamentos que classificam grãos de soja por imagem só padronizam a classificação se o modelo mantiver o desempenho em unidades onde não foi treinado. Este relatório mede essa perda com duas bases públicas (10.343 imagens), tratando três regiões como três unidades de equipamento. Separar as fotos uma a uma, e não por bandeja, inflou a acurácia balanceada em 4,4 pontos. Numa unidade nunca vista, o modelo perdeu 14,2 pontos, recuperados quando parte das amostras da unidade entrou no treino. Entre bases de origens diferentes, o desempenho caiu ao nível do acaso; 50 imagens rotuladas da base nova levaram a acurácia a 86,9. Enviar à revisão humana os 10% de grãos mais duvidosos elevou a acurácia de 91,4 para 95,2 em unidade conhecida, mas pouco ajudou em unidade nova, onde o modelo erra com confiança. Das seis previsões registradas antes dos testes, 4 se confirmaram.</p>
-      <p class="artigo-ficha"><b>Ferramentas:</b> Python · PyTorch · timm · scikit-learn · pandas · matplotlib · LaTeX. <b>Código:</b> privado; demonstração sob solicitação.</p>
-
-      <h2>1. Problema</h2>
-      <p>No Brasil, a soja é classificada pelo padrão oficial do Ministério da Agricultura (IN 11/2007): numa amostra de cada carga, um classificador separa visualmente os grãos avariados e pesa cada grupo. Equipamentos que fotografam cada grão e o classificam com aprendizado de máquina prometem rapidez e o mesmo critério em todas as unidades, desde que o modelo mantenha o desempenho numa unidade em que não foi treinado.</p>
-      <h2>2. Método</h2>
-      <p>Duas bases abertas: SOYPR (4.830 imagens de três regiões do Paraná, sete classes) e Mendeley (5.513 imagens, cinco classes, licença CC BY 4.0, auditada para imagens repetidas). Treino e teste separados por bandeja física e congelados antes de qualquer modelo; avaliação deixando cada unidade de fora; modelos concorrentes medidos nas mesmas bandejas, em 20 repetições; hiperparâmetros escolhidos sem tocar no teste; seis previsões registradas antes dos testes.</p>
-      <figure class="artigo-figura">
-        <img src="figura-unidade.png" width="694" height="401" alt="Gráfico: acurácia balanceada por unidade para o modelo treinado na própria unidade, sem a unidade e geral com parte da unidade." loading="lazy">
-        <figcaption>Figura 1. Acurácia balanceada por foto nas mesmas bandejas de teste de cada unidade.</figcaption>
-      </figure>
-      <h2>3. Principais resultados</h2>
-      <ul>
-        <li>Numa unidade nunca vista, a acurácia balanceada caiu de 79,4 para 65,2, na mesma direção nas 20 repetições; com parte das bandejas da unidade no treino, o modelo geral chegou a 80,2.</li>
-        <li>Entre bases de origens diferentes, o desempenho caiu ao acaso; treinar só com as imagens novas foi melhor do que juntá-las à base antiga (86,9 com 50 imagens e 90,3 com 200).</li>
-        <li>Uma rede mais recente (DINOv2) perdeu menos na unidade nova que a do artigo de referência (+4,2 pontos), sem eliminar a perda.</li>
-        <li>A dúvida do modelo orientou bem a revisão humana em unidade conhecida (91,4 para 95,2 revisando 10% dos grãos), mas não em unidade nova.</li>
-      </ul>
-      <figure class="artigo-figura">
-        <img src="figura-poucas-fotos.png" width="617" height="382" alt="Gráfico: acurácia balanceada na base nova conforme o número de imagens rotuladas, para três estratégias." loading="lazy">
-        <figcaption>Figura 2. Base nova: acurácia balanceada conforme o número de imagens rotuladas, medida em bandejas fora do sorteio.</figcaption>
-      </figure>
-      <h2>4. Aplicação prática</h2>
-      <ul>
-        <li>Equipamento já conhecido: comitê de duas redes e revisão humana dos 10% de grãos mais duvidosos (acurácia balanceada por grão de 91,4 para 95,2).</li>
-        <li>Equipamento novo, sem dados dele: validar antes de usar; mesmo o melhor modelo (DINOv2) ficou em 76,8 por grão.</li>
-        <li>Equipamento novo, com parte das amostras dele no treino: o modelo geral volta ao nível do modelo local (87,8 por grão).</li>
-        <li>Outra base de imagens: coletar de 50 a 200 imagens rotuladas e treinar só com elas (86,9 e 90,3, intacto ou defeituoso); avaliar sempre por amostra e por unidade, nunca foto a foto.</li>
-      </ul>
-      <h2>5. Limitações</h2>
-      <p>As unidades do estudo são regiões fotografadas, e não equipamentos distintos; os efeitos do equipamento, da região e do classificador de referência não se separam. A comparação entre bases usa apenas a tarefa intacto ou defeituoso.</p>
-      <div class="artigo-acoes">
-        <a href="relatorio.pdf" class="botao botao-verde">Ler o relatório técnico (PDF)</a>
-        <a href="../../#projetos" class="botao botao-linha">Outros projetos</a>
+      <div class="artigo-destaques">
+        <div><b>−14.2</b><span>points of balanced accuracy at a unit never seen</span></div>
+        <div><b>86.9</b><span>balanced accuracy with only 50 labeled photos from a new dataset</span></div>
+        <div><b>4 of 6</b><span>predictions registered before the tests that held up</span></div>
       </div>
-      <h2>Referências</h2>
+      <p class="artigo-resumo"><b>Abstract.</b> Machines that grade soybeans from images only standardize grading if the model keeps its performance at sites where it was not trained. This study measures that loss with two public datasets (10,343 images), treating three regions as three equipment units. Splitting the photos one by one, instead of by tray, inflated balanced accuracy by 4.4 points. At a unit it had never seen, the model lost 14.2 points, recovered when part of that unit&#x27;s samples joined the training set. Between datasets of different origin, performance fell to chance; 50 labeled images from the new dataset brought balanced accuracy back to 86.9. Sending the 10% most doubtful beans to human review raised accuracy from 91.4 to 95.2 at a known unit, but helped little at a new one, where the model is wrong with confidence. Of six predictions registered before the tests, four held up.</p>
+      <p class="artigo-ficha"><b>My role:</b> study design, data audit, modeling and evaluation. <b>Tools:</b> Python · PyTorch · timm · scikit-learn · pandas · matplotlib · LaTeX. <b>Code:</b> private; demonstration on request.</p>
+
+      <h2>1. Why I studied this</h2>
+      <p>Automatic grading of soybeans has a bottleneck that a single accuracy figure hides. The same model, moved to another machine, sees different lighting, a different camera angle and beans from another region, and its errors change in ways that are rarely measured. I wanted to look at that problem with the same rigor I use in my research, and to see how far it can be understood and reduced using only open data.</p>
+      <p>In Brazil, a grader takes a sample from every truckload, separates the damaged beans by eye and weighs each group, following the Ministry of Agriculture's standard. Machines that photograph each bean promise the same criterion at every site, but only if the model keeps its performance at a site where it was never trained.</p>
+      <h2>2. How I set it up</h2>
+      <p>I used two open datasets. SOYPR has 4,830 images from three regions of Paraná, in seven classes, each region labeled by a specialist; here, each region plays the part of an equipment unit. Mendeley has 5,513 images from another source, under a CC BY 4.0 license; my audit found 371 pairs of repeated images, so I kept one per group. Training and test sets were fixed by physical tray before any model existed and frozen with a checksum, because the three photos of a bean are nearly identical and splitting photo by photo would let the model recognize the bean instead of its defect. The models were tuned without touching the test set, compared on the same trays over 20 repetitions, and I wrote down six predictions before running the tests.</p>
+      <figure class="artigo-figura">
+        <img src="figura-unidade.png" width="656" height="401" alt="Chart: balanced accuracy per unit for the model trained on the unit, without it, and the general model with part of the unit." loading="lazy">
+        <figcaption>Figure 1. Balanced accuracy per photo on the same test trays of each unit.</figcaption>
+      </figure>
+      <h2>3. What I found</h2>
+      <p>The shortcut matters: splitting photo by photo inflated balanced accuracy by 4.4 points, in all three units. At a unit it had never seen, the honest model fell from 79.4 to 65.2, and it fell in all 20 repetitions; once part of that unit's trays went into training, the general model was back at 80.2. The worst case was the "dirty" class at unit 2, which went from 100% to 9% accuracy without that unit's data; the dataset's authors describe this class as subjective, which points to each region's grader drawing the line in a different place.</p>
+      <p>A different image dataset was a harder wall. A model trained on one dataset and tested on the other dropped to chance, and adjusting its decision threshold was not enough (74.3 even with 200 photos). What did help was surprisingly little data: 50 labeled photos from the new dataset, used on their own, brought balanced accuracy to 86.9, and 200 brought it to 90.3. A newer network (DINOv2) scored 4.2 points higher than the paper's network at a new unit (69.4 against 65.2), but did not remove the loss.</p>
+      <figure class="artigo-figura">
+        <img src="figura-poucas-fotos.png" width="617" height="382" alt="Chart: balanced accuracy on the new dataset by number of labeled photos, for three strategies." loading="lazy">
+        <figcaption>Figure 2. New dataset: balanced accuracy by number of labeled photos, always measured on trays outside the draw.</figcaption>
+      </figure>
+      <p>Finally, the model's own doubt is a good guide for human review at a known unit: reviewing the 10% most doubtful beans raised accuracy from 91.4 to 95.2. At a new unit it is not, because there the model is wrong with confidence. Four of my six predictions held up; the two that failed both assumed mechanical damage would be the hardest class, and it was not.</p>
+      <h2>4. What this means in practice</h2>
+      <p>With a known machine, a committee of two networks plus a person reviewing the 10% most doubtful beans is a sound setup. A new machine should be validated before use; what worked here was adding samples from that machine to training. A different image source needs its own labeled photos, and 50 to 200 go a long way. Whatever the setup, evaluate by sample and by unit, never photo by photo.</p>
+      <h2>5. Limitations</h2>
+      <p>The units in this study are photographed regions, not distinct machines, so the effects of the equipment, the region and the grader cannot be separated. The comparison between datasets uses only the intact-or-defective task, because the two datasets do not share the same classes.</p>
+      <div class="artigo-acoes">
+        <a href="relatorio.pdf" class="botao botao-verde">Read the technical report (PDF)</a>
+        <a href="../../#projetos" class="botao botao-linha">Other projects</a>
+      </div>
+      <h2>References</h2>
       <ol class="artigo-refs">
         <li>Lin, W. et al. (2023). Soybean image dataset for classification. <i>Data in Brief</i>, 48:109300.</li>
         <li>MAPA (2007). Instrução Normativa n. 11, de 15 de maio de 2007: Regulamento Técnico da Soja.</li>
-        <li>Pereira, G. M. L., Foleis, J. H., Brito Jr., A. S. e Bertolini, D. (2024). A database for soybean seed classification. In <i>37th SIBGRAPI</i>. IEEE.</li>
+        <li>Pereira, G. M. L., Foleis, J. H., Brito Jr., A. S. and Bertolini, D. (2024). A database for soybean seed classification. In <i>37th SIBGRAPI</i>. IEEE.</li>
       </ol>
     </article>
   </main>
 
   <footer class="rodape">
     <div class="faixa">
-      <span>Thalles Mota, Consultoria em Análise de Dados. Rondonópolis/MT, atendimento online. CNPJ 67.105.344/0001-36.</span>
+      <span>Thalles Mota · data science and machine learning · Rondonópolis, Brazil · remote work. CNPJ 67.105.344/0001-36.</span>
       <span class="rodape-links">
         <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
-        <a href="../../privacidade.html">Privacidade</a>
+        <a href="../../privacidade.html">Privacy (in Portuguese)</a>
       </span>
     </div>
   </footer>

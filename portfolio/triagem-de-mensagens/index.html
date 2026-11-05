@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lead intake and triage with a local AI | Thalles Mota</title>
+  <meta name="description" content="An n8n workflow that reads incoming customer messages with a local AI, fills a spreadsheet and alerts the owner when a person is needed. Independent test: 95% of 40 messages routed correctly.">
+  <meta name="theme-color" content="#251848">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://thallesmota.com/portfolio/triagem-de-mensagens/">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Lead intake and triage with a local AI in n8n: design and an independent test on 40 unseen messages">
+  <meta property="og:description" content="An n8n workflow that reads incoming customer messages with a local AI, fills a spreadsheet and alerts the owner when a person is needed. Independent test: 95% of 40 messages routed correctly.">
+  <meta property="og:url" content="https://thallesmota.com/portfolio/triagem-de-mensagens/">
+  <meta property="og:image" content="https://thallesmota.com/portfolio/triagem-de-mensagens/figura-planilha.png">
+  <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="artigo">
+
+  <a href="#conteudo" class="pular">Skip to content</a>
+
+  <header class="topo">
+    <div class="faixa">
+      <a href="../../" class="marca">
+        <span class="marca-nome">Thalles Mota</span>
+        <span class="marca-area">Data science</span>
+      </a>
+      <div class="topo-acoes">
+        <a href="../../#projetos" class="botao botao-linha">All projects</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <article class="artigo-corpo">
+      <h1>Lead intake and triage with a local AI in n8n: design and an independent test on 40 unseen messages</h1>
+      <p class="artigo-autor">Thalles Paul Leandro Mota</p>
+      <p class="artigo-meta">Technical report · November 2026</p>
+
+      <div class="artigo-destaques">
+        <div><b>95%</b><span>of 40 unseen messages routed correctly</span></div>
+        <div><b>0</b><span>urgent messages left in the automatic pile</span></div>
+        <div><b>30/30</b><span>names, phones and locations extracted correctly</span></div>
+      </div>
+      <p class="artigo-resumo"><b>Abstract.</b> This report describes an n8n workflow for small service businesses that reads each incoming message with an AI model running on the business&#x27;s own computer, extracts the customer&#x27;s details, decides what should happen to the message and records it in a spreadsheet, alerting the owner whenever a person needs to act. Fixed rules filter what does not need the AI, every AI answer is checked before it is saved, and the final status is set by rules rather than by the model. On an independent test of 40 messages written by a separate author and sealed before the run, 38 were routed correctly (95%), no urgent message was handled automatically, and names, phone numbers and locations were extracted correctly in all 30 cases each.</p>
+      <p class="artigo-ficha"><b>My role:</b> requirements, design, build and independent evaluation. <b>Tools:</b> n8n · Ollama · Llama 3.2 3B · JavaScript · Google Sheets. <b>Code:</b> private; live demonstration on request.</p>
+
+      <h2>1. Why I built it</h2>
+      <p>This one came straight from job posts. Small service businesses kept asking for the same thing: a way to stop losing leads in a crowded inbox. A plumber or a cleaning company gets quote requests, urgent jobs, complaints, questions, automatic replies and spam all mixed together, and someone has to read every message, copy the name and phone number and decide what comes first. An AI can do the reading, but left alone it may invent a phone number or file an emergency as routine. I wanted a workflow where the AI does the tedious part and never has the last word.</p>
+      <figure class="artigo-video">
+        <video controls preload="none" poster="video-triagem-capa.jpg" width="1920" height="1080"><source src="video-triagem.mp4" type="video/mp4"></video>
+        <figcaption>Video 1. Real recording of the demonstration: messages arrive, the local AI reads them one at a time, and the spreadsheet fills in with the right status for each.</figcaption>
+      </figure>
+      <h2>2. How it works</h2>
+      <p>Before any AI is involved, simple rules clear out what does not need it: empty messages, automatic replies, "no-reply" senders, texts too short to mean anything, and exact duplicates. Each of these is still logged with the reason, so nothing disappears without a trace.</p>
+      <p>The remaining messages go to a model running on the same computer, one at a time, and it fills a fixed form: what the person wants, whether it is urgent, name, phone, service, location, deadline and budget. Then code checks the form. A phone number only counts if it actually appears in the message, and a name only counts if it appears in the message or in the sender's name; anything else is removed and the message goes to a person.</p>
+      <p>The final status comes from rules, in a fixed order. Spam is discarded. Urgent jobs, complaints, requests missing the service, and anything that looked invented go to a person, with an alert to the owner. Everything else is handled automatically. Every message becomes exactly one row in the spreadsheet, and if the AI is down the message waits with an error status instead of being lost.</p>
+      <figure class="artigo-figura">
+        <img src="figura-fluxo.png" width="1120" height="603" alt="Screenshot of the n8n workflow: messages go one at a time to the local AI, and each answer is checked." loading="lazy">
+        <figcaption>Figure 1. Stage 2 of the workflow in n8n: one message at a time goes to the local AI, and every answer is checked before it is saved.</figcaption>
+      </figure>
+      <h2>3. How it was tested</h2>
+      <p>Independent agents wrote and reviewed 40 test messages without seeing the code, the prompt or any result, and I did not read them before the run. The mix was realistic: complete requests and requests missing details, questions, urgent jobs, complaints, spam and scams, automatic replies, duplicates and one malformed input. The model was chosen and recorded beforehand, and the test ran once.</p>
+      <h2>4. Results</h2>
+      <p>38 of the 40 messages got the right status (95%; interval 83 to 99%). Both mistakes leaned to the safe side: a scam with a 24-hour deadline was read as a complaint and sent to a person instead of the bin, and a meaningless test message made the AI invent a name, which the check caught. No urgent message ended up in the automatic pile, and no request that needed a person was lost. Urgency, name, phone and location were right in 30 of 30 cases each.</p>
+      <p>I also ran a model almost three times larger, Llama 3.1 with 8 billion parameters. It got 36 of 40, let one vague request slip into the automatic pile, and took 145 seconds for the batch against 54. I kept the small one.</p>
+      <figure class="artigo-figura">
+        <img src="figura-planilha.png" width="1120" height="603" alt="Screenshot of the resulting spreadsheet, with urgent and unclear messages marked for review." loading="lazy">
+        <figcaption>Figure 2. The resulting spreadsheet: urgent messages, unclear requests and complaints go to a person, with an alert.</figcaption>
+      </figure>
+      <h2>5. What this means in practice</h2>
+      <p>For the owner, new leads arrive in a spreadsheet with the details already filled in, and only the messages that need a person reach them, each one flagged. Because the AI runs on the business's own machine, messages are not sent to an AI company and there is no fee per message. For a real client, the workflow is plugged into their own inbox, form or text messages, and tested again on a sample of their real messages before it goes live.</p>
+      <h2>6. Limitations</h2>
+      <p>Forty messages written by an independent AI agent is a small test, so the interval is wide. In the demo, messages arrive through a local web address and alerts are written to a file; in a real setup they come from the client's channel and alerts go by e-mail or Slack. The workflow does not reply to customers on its own. Built with Llama.</p>
+      <div class="artigo-acoes">
+        <a href="relatorio.pdf" class="botao botao-verde">Read the technical report (PDF)</a>
+        <a href="../../#projetos" class="botao botao-linha">Other projects</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="rodape">
+    <div class="faixa">
+      <span>Thalles Mota · data science and machine learning · Rondonópolis, Brazil · remote work. CNPJ 67.105.344/0001-36.</span>
+      <span class="rodape-links">
+        <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
+        <a href="../../privacidade.html">Privacy (in Portuguese)</a>
+      </span>
+    </div>
+  </footer>
+
+</body>
+</html>

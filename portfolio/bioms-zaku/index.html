@@ -1,83 +1,93 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BioMS Zaku: auditoria de índices e equações preditivas | Thalles Mota</title>
-  <meta name="description" content="Software livre que decompõe índices em vetores de expoentes, prevê sua redundância antes de calculá-los e os audita fora da amostra contra um controle negativo. Demonstrado em bioimpedância.">
+  <title>BioMS Zaku: auditing indices and predictive equations | Thalles Mota</title>
+  <meta name="description" content="Open-source software that decomposes indices into exponent vectors, predicts their redundancy before computing them and audits them out of sample against a negative control. Demonstrated on bioimpedance.">
   <meta name="theme-color" content="#251848">
   <link rel="icon" href="../../favicon.ico" sizes="48x48">
   <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://thallesmota.com/portfolio/bioms-zaku/">
   <meta property="og:type" content="article">
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:title" content="BioMS Zaku: decomposição algébrica e auditoria fora da amostra de índices e equações preditivas">
-  <meta property="og:description" content="Software livre que decompõe índices em vetores de expoentes, prevê sua redundância antes de calculá-los e os audita fora da amostra contra um controle negativo. Demonstrado em bioimpedância.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="BioMS Zaku: algebraic decomposition and out-of-sample audit of indices and predictive equations">
+  <meta property="og:description" content="Open-source software that decomposes indices into exponent vectors, predicts their redundancy before computing them and audits them out of sample against a negative control. Demonstrated on bioimpedance.">
   <meta property="og:url" content="https://thallesmota.com/portfolio/bioms-zaku/">
-  <meta property="og:image" content="https://thallesmota.com/portfolio/bioms-zaku/figura-sigma.png">
+  <meta property="og:image" content="https://thallesmota.com/portfolio/bioms-zaku/tela-metodo.png">
   <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body class="artigo">
 
-  <a href="#conteudo" class="pular">Pular para o conteúdo</a>
+  <a href="#conteudo" class="pular">Skip to content</a>
 
   <header class="topo">
     <div class="faixa">
       <a href="../../" class="marca">
         <span class="marca-nome">Thalles Mota</span>
-        <span class="marca-area">Ciência de dados</span>
+        <span class="marca-area">Data science</span>
       </a>
       <div class="topo-acoes">
-        <a href="../../#projetos" class="botao botao-linha">Todos os projetos</a>
+        <a href="../../#projetos" class="botao botao-linha">All projects</a>
       </div>
     </div>
   </header>
 
   <main id="conteudo">
     <article class="artigo-corpo">
-      <h1>BioMS Zaku: decomposição algébrica e auditoria fora da amostra de índices e equações preditivas</h1>
+      <h1>BioMS Zaku: algebraic decomposition and out-of-sample audit of indices and predictive equations</h1>
       <p class="artigo-autor">Thalles Paul Leandro Mota</p>
-      <p class="artigo-meta">Relatório técnico · novembro de 2026</p>
+      <p class="artigo-meta">Technical report · November 2026</p>
 
-      <p class="artigo-resumo"><b>Resumo.</b> Índices de bioimpedância costumam ser validados pela correlação com uma medida de referência, mas quase todos crescem com o tamanho do corpo e se correlacionam com qualquer tecido. O BioMS Zaku é um software livre que audita esses índices antes de aceitá-los. Ele escreve cada índice como um vetor de expoentes das variáveis medidas, prevê a correlação entre dois índices antes de calculá-los, a partir da matriz de covariância dos logaritmos, e testa fora da amostra se o índice prediz o alvo além do que um controle negativo declarado já prediz. Na execução completa do exemplo do pacote, a correlação prevista diferiu da observada em no máximo 0,015, um par de índices publicados foi identificado como redundante (ρ = 0,97), e a auditoria separou índices específicos para a massa magra de índices que acompanham a massa gorda.</p>
-      <p class="artigo-ficha"><b>Ferramentas:</b> Python · NumPy · pandas · SciPy · scikit-learn · matplotlib. <b>Código:</b> aberto (licença MIT) no <a href="https://github.com/bioms-zaku-framework/bioms-zaku">GitHub</a>.</p>
+      <div class="artigo-destaques">
+        <div><b>0.015</b><span>largest error of the correlation predicted before computing the indices</span></div>
+        <div><b>32</b><span>published methods in the catalog, 8 checked against the primary source</span></div>
+        <div><b>246</b><span>automated tests, with hand-calculated cases and exact identities</span></div>
+      </div>
+      <p class="artigo-resumo"><b>Abstract.</b> Bioimpedance indices are usually validated by their correlation with a reference measurement, but almost all of them grow with body size and correlate with every tissue. BioMS Zaku is open-source software that audits these indices before they are accepted. It writes each index as a vector of exponents of the measured variables, predicts the correlation between two indices before computing either of them, from the covariance matrix of the logarithms, and tests out of sample whether the index predicts the target beyond what a declared negative control already predicts. On a full run of the package&#x27;s example, the predicted correlation differed from the observed one by at most 0.015, a pair of published indices was identified as redundant (ρ = 0.97), and the audit separated indices specific to lean mass from indices that follow fat mass.</p>
+      <p class="artigo-ficha"><b>My role:</b> lead creator and developer. <b>Tools:</b> Python · NumPy · pandas · SciPy · scikit-learn · matplotlib. <b>Code:</b> open (MIT license) on <a href="https://github.com/bioms-zaku-framework/bioms-zaku">GitHub</a>.</p>
 
-      <h2>1. Método</h2>
-      <p>Cada índice que é produto de potências da resistência, da reatância, da estatura e da massa é representado pelo seu vetor de expoentes; com a matriz de covariância dos logaritmos dessas variáveis, a correlação entre dois índices é prevista antes de calculá-los. A auditoria declara um alvo e um controle negativo e mede, em reamostragens idênticas fora da amostra, o ganho do índice para o alvo além do controle (S1) e para o controle além do alvo (S2).</p>
+      <h2>1. Why I built it</h2>
+      <p>I have always been drawn to bioimpedance, and the field has a standardization problem: methods, equipment and indices multiply, and they are compared in ways that are hard to repeat. I built BioMS Zaku to give the field a common, documented way to record indices and equations and to analyze them with rigor, so that modeling with bioimpedance data starts from a solid base. It is a public library, still in development. The name comes from Juruna (Yudjá), a language of the Xingu in Mato Grosso, where <i>zaku</i> means to see, to care for, to wait.</p>
+      <p>The problem it attacks is simple to state. An index that correlates with lean mass proves little, because larger people have more of every tissue. Before accepting an index, three questions should be answered: is it new, or does it already exist under another name? Does it measure what it claims, or just body size? Does it add anything to stature and body mass?</p>
       <figure class="artigo-figura">
-        <img src="figura-sigma.png" width="464" height="451" alt="Gráfico: correlação prevista pela álgebra contra a observada, sobre a diagonal." loading="lazy">
-        <figcaption>Figura 1. Correlação entre os logaritmos de pares de índices: prevista pela matriz de covariância, antes de calcular os índices, contra a observada (42 pares, dois estratos).</figcaption>
+        <img src="tela-metodo.png" width="1120" height="1152" alt="Screenshot of the report the software generates: the method in one picture and the key numbers of the run." loading="lazy">
+        <figcaption>Figure 1. Real screen of the HTML report the package generates, in English: the method in one picture and the key numbers of the run.</figcaption>
       </figure>
-      <h2>2. Engenharia e reprodutibilidade</h2>
-      <p>Pacote em Python sob licença MIT, com interface guiada no terminal e caderno Jupyter pronto. A saída é um relatório HTML autocontido em português, inglês, espanhol ou italiano. Os pressupostos estão fixados em cinco contratos normativos; o catálogo traz 32 métodos publicados, oito deles conferidos na fonte primária. Um manifesto registra configuração, sementes, versões e o SHA-256 de cada tabela, e a suíte tem 246 funções de teste.</p>
+      <h2>2. How it works</h2>
+      <p>Every index that is a product of powers of resistance, reactance, stature and mass is written as its vector of exponents. With the covariance matrix of the logarithms of those variables, the correlation between two indices can be predicted before either is computed, which shows at once whether a "new" index is an old one in disguise. Then comes the audit: the researcher declares a target, such as lean mass, and a negative control, such as fat mass, and on identical out-of-sample resamples the software measures whether the index helps predict the target beyond the control (S1) and the control beyond the target (S2). Specific indices show the first gain and not the second.</p>
+      <p>The software is built to be checked. It runs from a guided terminal or a notebook without any programming, writes a single HTML report in Portuguese, English, Spanish or Italian, fixes its assumptions in five written contracts, records seeds, versions and the SHA-256 of every table, and never outputs individual-level data, so it can run inside a partner's environment.</p>
+      <h2>3. What the example shows</h2>
+      <p>On the package's example, a synthetic dataset of 1,400 people generated from NHANES parameters, the predicted correlations missed the observed ones by at most 0.015 across 42 pairs. The BIVA component R/H turned out to be redundant with the much older impedance index H²/R (ρ = 0.97). Against fat mass as a negative control, three of the seven curated indices were specific to lean mass, while specific resistivity added almost nothing to the target (S1 of 0.004) and a lot to the control (S2 of 0.245): it follows fat mass.</p>
       <figure class="artigo-figura">
-        <img src="figura-auditoria.png" width="599" height="443" alt="Gráfico: ganho para o alvo além do controle contra ganho para o controle além do alvo, por índice." loading="lazy">
-        <figcaption>Figura 2. Auditoria contra o controle negativo no exemplo do pacote: ganho para o alvo além do controle (S1) e para o controle além do alvo (S2).</figcaption>
+        <img src="figura-auditoria.png" width="600" height="441" alt="Chart: gain for the target beyond the control against gain for the control beyond the target, per index." loading="lazy">
+        <figcaption>Figure 2. Audit against the negative control on the package's example: gain for the target beyond the control (S1) and for the control beyond the target (S2).</figcaption>
       </figure>
-      <h2>3. Aplicação prática</h2>
-      <ul>
-        <li>Antes de adotar ou publicar um índice: verificar se ele repete um índice já publicado, se mede o alvo além do controle negativo e se acrescenta algo à estatura e à massa corporal.</li>
-        <li>Em parcerias com dados sensíveis: as tabelas de saída nunca contêm dados individuais, e a análise pode rodar no ambiente do parceiro.</li>
-        <li>Em revisão de artigos e equações: o relatório registra configuração, sementes e códigos de verificação, e qualquer pessoa pode refazer os números.</li>
-      </ul>
-      <h2>4. Limitações</h2>
-      <p>A demonstração usa dados sintéticos gerados a partir de parâmetros do NHANES 1999–2004; os vereditos descrevem o exemplo, não uma população real. O software está na primeira versão candidata (1.0.0rc1).</p>
-      <p>Idealizador principal e desenvolvedor: T. P. L. Mota, com contribuições de L. C. Oliveira Gonçalves e A. M. de Magalhães Neto.</p>
+      <p>The software is also honest about its own limits. It flagged this contrast as weak by construction, because target and control come from the same scan, and its sensitivity analysis showed that 5 of the 14 verdicts change somewhere on the grid of thresholds. The report says so next to each verdict.</p>
+      <figure class="artigo-figura">
+        <img src="tela-vereditos.png" width="1120" height="498" alt="Screenshot of the verdict sheet from the report: originality, specificity and added value per method." loading="lazy">
+        <figcaption>Figure 3. The verdict sheet as it appears in the report (stratum 0).</figcaption>
+      </figure>
+      <h2>4. What this means in practice</h2>
+      <p>Before adopting or publishing an index, check whether it repeats one already published, whether it measures the target beyond a negative control, and whether it adds anything to stature and body mass. In partnerships with sensitive data, the analysis can run in the partner's environment, since no output contains individual data. And anyone reviewing a paper or an equation can rerun the numbers from the recorded configuration and seeds.</p>
+      <h2>5. Limitations</h2>
+      <p>The demonstration uses synthetic data generated from NHANES 1999–2004 parameters; the verdicts describe the example, not a real population. The software is at its first release candidate (1.0.0rc1). The figures and screens on this page come from the public version of the code (commit 41fc62e).</p>
+      <p>Lead creator and developer: T. P. L. Mota, with contributions from L. C. Oliveira Gonçalves and A. M. de Magalhães Neto.</p>
       <div class="artigo-acoes">
-        <a href="relatorio.pdf" class="botao botao-verde">Ler o relatório técnico (PDF)</a>
-        <a href="https://github.com/bioms-zaku-framework/bioms-zaku" class="botao botao-linha">Código no GitHub</a>
-        <a href="../../#projetos" class="botao botao-linha">Outros projetos</a>
+        <a href="relatorio.pdf" class="botao botao-verde">Read the technical report (PDF)</a>
+        <a href="https://github.com/bioms-zaku-framework/bioms-zaku" class="botao botao-linha">Code on GitHub</a>
+        <a href="../../#projetos" class="botao botao-linha">Other projects</a>
       </div>
     </article>
   </main>
 
   <footer class="rodape">
     <div class="faixa">
-      <span>Thalles Mota, Consultoria em Análise de Dados. Rondonópolis/MT, atendimento online. CNPJ 67.105.344/0001-36.</span>
+      <span>Thalles Mota · data science and machine learning · Rondonópolis, Brazil · remote work. CNPJ 67.105.344/0001-36.</span>
       <span class="rodape-links">
         <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
-        <a href="../../privacidade.html">Privacidade</a>
+        <a href="../../privacidade.html">Privacy (in Portuguese)</a>
       </span>
     </div>
   </footer>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support assistant with measured accuracy | Thalles Mota</title>
+  <meta name="description" content="A document-based (RAG) support assistant that cites its source, says when it doesn&#x27;t know, and keeps allergens and emergencies away from the AI. Independent test: right call in 92% of 184 decisions.">
+  <meta name="theme-color" content="#251848">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" href="../../img/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://thallesmota.com/portfolio/assistente-rag/">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="A customer-support assistant that answers only from the company&#x27;s documents: design and an independent test on 187 unseen questions">
+  <meta property="og:description" content="A document-based (RAG) support assistant that cites its source, says when it doesn&#x27;t know, and keeps allergens and emergencies away from the AI. Independent test: right call in 92% of 184 decisions.">
+  <meta property="og:url" content="https://thallesmota.com/portfolio/assistente-rag/">
+  <meta property="og:image" content="https://thallesmota.com/portfolio/assistente-rag/figura-categorias.png">
+  <link rel="preload" href="../../fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="artigo">
+
+  <a href="#conteudo" class="pular">Skip to content</a>
+
+  <header class="topo">
+    <div class="faixa">
+      <a href="../../" class="marca">
+        <span class="marca-nome">Thalles Mota</span>
+        <span class="marca-area">Data science</span>
+      </a>
+      <div class="topo-acoes">
+        <a href="../../#projetos" class="botao botao-linha">All projects</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <article class="artigo-corpo">
+      <h1>A customer-support assistant that answers only from the company&#x27;s documents: design and an independent test on 187 unseen questions</h1>
+      <p class="artigo-autor">Thalles Paul Leandro Mota</p>
+      <p class="artigo-meta">Technical report · November 2026</p>
+
+      <div class="artigo-destaques">
+        <div><b>92%</b><span>right decision in 184 questions it had never seen</span></div>
+        <div><b>0</b><span>wrong allergen answers in 47 chances</span></div>
+        <div><b>0</b><span>health emergencies missed, out of 11</span></div>
+      </div>
+      <p class="artigo-resumo"><b>Abstract.</b> This report describes a customer-support assistant that answers only from a company&#x27;s own documents, cites the section it used, and says it does not know, alerting the team, when the documents do not cover the question. Allergen answers and health emergencies are handled by fixed rules, not by the AI. The assistant was tested once, on 187 questions written by a separate author and sealed before the run. It made the right call in 170 of 184 decisions (92%), gave no wrong allergen answer in 47 chances, missed none of 11 health emergencies and raised no false alarm. Plain factual questions are its weak point: 35 of 46 (76%) received a complete answer; of the other 11, four ended in &quot;I don&#x27;t know&quot; because the checks could not verify the answer, and seven answered but left out a detail.</p>
+      <p class="artigo-ficha"><b>My role:</b> requirements, design, build and independent evaluation. <b>Tools:</b> n8n · Ollama · Qwen3 4B · bge-m3 · JavaScript · Python. <b>Code:</b> private; live demonstration on request.</p>
+
+      <h2>1. Why I built it</h2>
+      <p>When I read through a hundred recent job posts for document chatbots, about one in twelve asked someone to fix a bot that was already in use and giving wrong answers. Nobody could say how often it happened. That became the brief for this project: build the assistant, and also measure it the way I measure models in my research, on questions it has never seen, with the error rate stated next to the hit rate.</p>
+      <p>The demonstration runs for <i>Brindle Bend Burgers</i>, a fictional burger restaurant with online orders. I chose food on purpose. A wrong delivery fee costs a refund; a wrong answer about sesame can send someone to hospital. The knowledge base has 11 documents written for the demo, and some traps among them: two staff-only documents, an outdated policy, and sentences addressed to an AI, such as a promise of free orders, hidden in the documents.</p>
+      <figure class="artigo-video">
+        <video controls preload="none" poster="video-assistente-capa.jpg" width="1920" height="1080"><source src="video-assistente.mp4" type="video/mp4"></video>
+        <figcaption>Video 1. Real recording of the demonstration (59 s): a delivery fee, an allergen answer built from the table, an honest "I don't know", a health emergency, and the workflow running in n8n.</figcaption>
+      </figure>
+      <h2>2. How it works</h2>
+      <p>The AI only gets a question after the rules have had their turn. Greetings, empty messages, complaints and questions about old policies are handled in code. If someone describes a symptom after eating, the reply is a fixed message to call 911, and the manager gets an alert straight away. Allergen questions never reach the AI either: the answer is put together from the allergen table, with the same warning about cross-contact every time.</p>
+      <p>Everything else goes to search. The question is compared only with the sections a customer is allowed to see; staff documents and the old policy are never indexed. If nothing is close enough, the customer gets "I don't know" and the team gets an alert, without the AI being called at all. Otherwise a local model reads the five closest sections, after a filter has removed any sentence written to manipulate an AI, and writes the answer together with the sections it used.</p>
+      <p>The answer is then checked by code. Every price, time, date and code it mentions has to be in the section it cites, and it may not tell anyone that a dish is free of an allergen. If anything fails, the customer gets "I don't know" instead. Everything runs on the business's own machine, so customer questions are not sent to an AI company and there is no fee per question. The median reply took 2.1 seconds.</p>
+      <figure class="artigo-figura">
+        <img src="figura-alergenico.png" width="1120" height="645" alt="Screenshot of the demo chat: an allergen answer built from the allergen table, with the cross-contact warning." loading="lazy">
+        <figcaption>Figure 1. Real screen of the demonstration: the allergen answer is assembled by code from the allergen table; the AI does not write it.</figcaption>
+      </figure>
+      <h2>3. What tuning taught me</h2>
+      <p>Two things surprised me while tuning. The ready-made guardrail node in n8n did not catch any of the seven manipulation attempts in my practice set, with any of the three models I tried, so I wrote a small classifier of my own; it caught all seven and did not refuse a single complaint. And the largest model I tried, 8 billion parameters, was not worth it: on my 6 GB graphics card one reply in twenty took 19 seconds or more, against about 3 seconds for the 4-billion model I kept.</p>
+      <h2>4. How it was tested</h2>
+      <p>I did not write the test. An independent author wrote the 187 questions and their expected answers from the requirements and the documents alone, without seeing the workflow, the prompts or any result, and a second reviewer checked the answer key. The files were sealed with SHA-256 fingerprints, and I never opened them. Every tuning decision was made on 89 separate practice questions and written down before the test. Then the test ran once, and nothing was changed afterwards. Each figure below is a count over a count, with a 95% Wilson interval; categories with fewer than ten questions are read as a direction, not a rate.</p>
+      <h2>5. Results</h2>
+      <p>The assistant made the right decision, whether to answer, say it does not know, alert the team or refuse, in 170 of 184 questions (92%; interval 88 to 95%). On safety it was clean: no wrong allergen answer in 47, no missed emergency in 11, no false alarm in 176, no legitimate question refused in 181, and all 15 complaints recognized. It also ignored all nine hidden instructions.</p>
+      <p>Factual questions were harder. Only 35 of 46 (76%) got a complete answer. Four of the misses were the safe kind: the model wrote a number it could not back up, once by adding two prices together, and the checks replaced the answer with "I don't know". The other seven answered but left out a detail, most often a time of day. Twice, though, it answered questions the documents do not cover with a true but irrelevant sentence about delivery areas. On the practice set the same configuration had scored 45 of 46; the drop on unseen questions is the reason to test this way.</p>
+      <figure class="artigo-figura">
+        <img src="figura-categorias.png" width="865" height="596" alt="Chart: right decision by question category with 95% intervals." loading="lazy">
+        <figcaption>Figure 2. Right decision by category, with 95% Wilson intervals. Open circles mark categories with fewer than 10 questions.</figcaption>
+      </figure>
+      <h2>6. What this means in practice</h2>
+      <p>For a business, the assistant can take the routine questions and stays safe where a mistake would hurt. About one factual question in four still ends in "I don't know" or misses a detail, and the log shows which ones, which is usually a sign that a document needs a line added. These numbers belong to this knowledge base. For a new client I would measure again, on their own documents and the questions their customers actually ask, before the assistant goes live.</p>
+      <h2>7. Limitations</h2>
+      <p>The demo is in English, on one fictional knowledge base, and the questions were written by an independent AI agent, not by real customers. Small categories have wide intervals. Questions that depend on today's date or need two documents are where it fails most. The same design can be built in Portuguese and connected to WhatsApp for Brazilian businesses.</p>
+      <div class="artigo-acoes">
+        <a href="relatorio.pdf" class="botao botao-verde">Read the technical report (PDF)</a>
+        <a href="../../#projetos" class="botao botao-linha">Other projects</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="rodape">
+    <div class="faixa">
+      <span>Thalles Mota · data science and machine learning · Rondonópolis, Brazil · remote work. CNPJ 67.105.344/0001-36.</span>
+      <span class="rodape-links">
+        <a href="mailto:thallesleandromota@gmail.com">thallesleandromota@gmail.com</a>
+        <a href="../../privacidade.html">Privacy (in Portuguese)</a>
+      </span>
+    </div>
+  </footer>
+
+</body>
+</html>
